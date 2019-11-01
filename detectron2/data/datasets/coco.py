@@ -331,6 +331,7 @@ def convert_to_coco_dict(dataset_name):
             del annotation["bbox_mode"]
             # TODO: make BBOX_MODE serializable, otherwise remove it
             annotation["bbox"] = bbox
+            annotation["iscrowd"] = 0
 
             # COCO requirement: instance area
             if "segmentation" in annotation:
@@ -342,7 +343,7 @@ def convert_to_coco_dict(dataset_name):
             else:
                 # Computing areas using bounding boxes
                 area = Boxes([bbox]).area()[0]
-            annotation["area"] = area
+            annotation["area"] = float(area)
 
             # Keeping track of fields present in instances
             _annotation_keys.update(annotation.keys())
